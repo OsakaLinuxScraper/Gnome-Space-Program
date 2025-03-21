@@ -1,0 +1,19 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://b4ia03110swah"]
+
+[ext_resource type="StyleBox" uid="uid://dce6unkt2kpfk" path="res://Assets/Materials/GeneralUI/button_hover.tres" id="1_iy3bl"]
+[ext_resource type="StyleBox" uid="uid://bex3aipdq6gde" path="res://Assets/Materials/GeneralUI/label.tres" id="1_mwhhf"]
+[ext_resource type="StyleBox" uid="uid://cld2a7f5w4g0h" path="res://Assets/Materials/GeneralUI/button_normal.tres" id="1_vlywg"]
+[ext_resource type="StyleBox" uid="uid://upc2ld4fp4d8" path="res://Assets/Materials/GeneralUI/button_press.tres" id="2_5fwyf"]
+[ext_resource type="StyleBox" uid="uid://ym67sb4x7cs0" path="res://Assets/Materials/GeneralUI/panel.tres" id="5_jmk56"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5fwyf"]
+
+[resource]
+Button/font_sizes/font_size = 20
+Button/styles/focus = SubResource("StyleBoxEmpty_5fwyf")
+Button/styles/hover = ExtResource("1_iy3bl")
+Button/styles/hover_pressed = ExtResource("2_5fwyf")
+Button/styles/normal = ExtResource("1_vlywg")
+Button/styles/pressed = ExtResource("2_5fwyf")
+Label/styles/normal = ExtResource("1_mwhhf")
+Panel/styles/panel = ExtResource("5_jmk56")

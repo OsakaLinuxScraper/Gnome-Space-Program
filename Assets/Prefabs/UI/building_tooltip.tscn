@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://by2ut82jvqsux"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0oag7"]
+bg_color = Color(0.187176, 0.187176, 0.187176, 1)
+skew = Vector2(-0.75, 0)
+border_width_left = 40
+border_color = Color(0, 0, 0, 0)
+expand_margin_left = 20.0
+expand_margin_right = 20.0
+
+[node name="BuildingTooltip" type="Label"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -324.0
+offset_right = 41.0
+offset_bottom = -301.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_0oag7")

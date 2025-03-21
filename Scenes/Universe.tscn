@@ -1,0 +1,211 @@
+[gd_scene load_steps=16 format=3 uid="uid://5ox121mpm2ai"]
+
+[ext_resource type="Script" uid="uid://bbk43dfl1gye2" path="res://Scripts/CameraControl.cs" id="1_d31ud"]
+[ext_resource type="PackedScene" uid="uid://dr8f57ibninqp" path="res://Assets/Prefabs/rigid_body_cube.tscn" id="2_brg3f"]
+[ext_resource type="Material" uid="uid://c6ajox4r7txx4" path="res://Assets/Materials/Grass.tres" id="2_k57b3"]
+[ext_resource type="Script" uid="uid://ksmq4us6ndfy" path="res://Scripts/TerrainGen.cs" id="2_lhdhw"]
+[ext_resource type="Material" uid="uid://d23tukoaw8yvl" path="res://Assets/Materials/Water.tres" id="3_i6dix"]
+[ext_resource type="Script" uid="uid://gr3sksxxiiif" path="res://Scripts/UniverseManager.cs" id="6_7jmkp"]
+[ext_resource type="Script" uid="uid://bttvjiyoqtv5f" path="res://Scripts/Planet.cs" id="7_0kuwm"]
+[ext_resource type="PackedScene" uid="uid://dgfxeiig7tdtd" path="res://Assets/Prefabs/gsc.tscn" id="8_0kuwm"]
+[ext_resource type="Material" uid="uid://fse6i8dj044i" path="res://Assets/Materials/Sun.tres" id="8_m06uv"]
+[ext_resource type="Texture2D" uid="uid://ck7qlvqe75vuk" path="res://Assets/Textures/sunSpikes.png" id="9_i4vn6"]
+[ext_resource type="PackedScene" uid="uid://hlhaljtudxey" path="res://Assets/Prefabs/world_environment.tscn" id="12_plivw"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lhdhw"]
+frequency = 0.0281
+offset = Vector3(-0.2, 0, 0)
+fractal_type = 3
+fractal_octaves = 10
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2vltj"]
+noise_type = 2
+frequency = 0.0856
+fractal_octaves = 10
+fractal_lacunarity = 3.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m06uv"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_texture = ExtResource("9_i4vn6")
+billboard_mode = 1
+proximity_fade_distance = 4096.0
+distance_fade_max_distance = 4096.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_i4vn6"]
+material = SubResource("StandardMaterial3D_m06uv")
+size = Vector2(1e+07, 1e+07)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("speedUI", "posUI", "falsePosUI")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.108, 601000)
+cull_mask = 1047552
+far = 1e+06
+script = ExtResource("1_d31ud")
+movementSpeed = 100.0
+speedUI = NodePath("../CameraInfo/CamSpeed")
+posUI = NodePath("../CameraInfo/CamPos")
+falsePosUI = NodePath("../CameraInfo/FalsePos")
+doodad = ExtResource("2_brg3f")
+
+[node name="Local" type="RemoteTransform3D" parent="Camera3D"]
+remote_path = NodePath("../../RenderLayers/LocalContainer/LocalView/Camera3D")
+
+[node name="Scaled" type="RemoteTransform3D" parent="Camera3D"]
+remote_path = NodePath("../../RenderLayers/ScaledContainer/ScaledView/Camera3D")
+
+[node name="CameraInfo" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CamSpeed" type="Label" parent="CameraInfo"]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 25.0
+offset_right = 88.0
+offset_bottom = 48.0
+text = "speedy"
+
+[node name="CamPos" type="Label" parent="CameraInfo"]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 54.0
+offset_right = 88.0
+offset_bottom = 77.0
+text = "true position"
+
+[node name="FalsePos" type="Label" parent="CameraInfo"]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 82.95
+offset_right = 133.0
+offset_bottom = 105.95
+text = "false position"
+
+[node name="RenderLayers" type="Control" parent="." node_paths=PackedStringArray("player", "currentPlanet") groups=["UniverseManager"]]
+z_index = -5
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_7jmkp")
+player = NodePath("../Camera3D")
+scaleDownFactor = 500.0
+moveForward = 2.004
+currentPlanet = NodePath("LocalContainer/LocalView/LocalSpace/Gnobe")
+
+[node name="LocalContainer" type="SubViewportContainer" parent="RenderLayers"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="LocalView" type="SubViewport" parent="RenderLayers/LocalContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="RenderLayers/LocalContainer/LocalView"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.108, 601000)
+cull_mask = 1047553
+far = 1e+06
+
+[node name="LocalSpace" type="Node3D" parent="RenderLayers/LocalContainer/LocalView" groups=["LocalSpace"]]
+
+[node name="Gnobe" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace"]
+script = ExtResource("7_0kuwm")
+geeASL = 9.8
+radius = 600000.0
+
+[node name="PQS_Container" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe" node_paths=PackedStringArray("player")]
+script = ExtResource("2_lhdhw")
+runInSeparateThread = false
+radius = 600000.0
+perQuadSubdivison = 8
+maxLevel = 15
+minRenderLevel = 5
+minColliderLevel = 14
+player = NodePath("../../../../../../Camera3D")
+material = ExtResource("2_k57b3")
+baseNoise = SubResource("FastNoiseLite_lhdhw")
+baseNoiseDeformity = 0.02
+detailNoise = SubResource("FastNoiseLite_2vltj")
+detailNoiseDeformity = 0.01
+
+[node name="PQS_Container_Ocean" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe" node_paths=PackedStringArray("player")]
+script = ExtResource("2_lhdhw")
+runInSeparateThread = false
+radius = 601000.0
+perQuadSubdivison = 8
+maxLevel = 10
+minRenderLevel = 5
+player = NodePath("../../../../../../Camera3D")
+material = ExtResource("3_i6dix")
+baseNoise = SubResource("FastNoiseLite_lhdhw")
+detailNoise = SubResource("FastNoiseLite_2vltj")
+
+[node name="Misc" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe"]
+
+[node name="GSC" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe/Misc" instance=ExtResource("8_0kuwm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -881.207, 300, 601170)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace"]
+transform = Transform3D(0.819152, -0.32899, -0.469846, 0, 0.819152, -0.573576, 0.573576, 0.469846, 0.67101, 0, 0, 0)
+shadow_enabled = true
+directional_shadow_mode = 0
+directional_shadow_fade_start = 0.385
+directional_shadow_max_distance = 2680.8
+
+[node name="Sun" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/DirectionalLight3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.49598e+10)
+
+[node name="PQS_Container" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/DirectionalLight3D/Sun" node_paths=PackedStringArray("player")]
+script = ExtResource("2_lhdhw")
+runInSeparateThread = false
+radius = 6.957e+07
+perQuadSubdivison = 8
+maxLevel = 15
+minRenderLevel = 5
+minColliderLevel = 9999999
+player = NodePath("../../../../../../../Camera3D")
+material = ExtResource("8_m06uv")
+baseNoise = SubResource("FastNoiseLite_lhdhw")
+baseNoiseDeformity = 0.02
+detailNoise = SubResource("FastNoiseLite_2vltj")
+detailNoiseDeformity = 0.01
+scaledBillboard = SubResource("QuadMesh_i4vn6")
+
+[node name="ScaledContainer" type="SubViewportContainer" parent="RenderLayers"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="ScaledView" type="SubViewport" parent="RenderLayers/ScaledContainer"]
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="RenderLayers/ScaledContainer/ScaledView"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.108, 601000)
+near = 10.0
+far = 2e+08
+
+[node name="ScaledSpace" type="Node3D" parent="RenderLayers/ScaledContainer/ScaledView" groups=["ScaledSpace"]]
+
+[node name="WorldEnvironment" parent="." instance=ExtResource("12_plivw")]

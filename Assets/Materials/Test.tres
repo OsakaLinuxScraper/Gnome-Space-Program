@@ -1,0 +1,22 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://eqhyg2lxl7ae"]
+
+[ext_resource type="Texture2D" uid="uid://bxe1virypv31i" path="res://Assets/Textures/eroded-smoothed-rockface_normal-ogl.png" id="2_6tdg4"]
+
+[resource]
+metallic = 0.65
+metallic_specular = 1.0
+roughness = 0.57
+normal_enabled = true
+normal_scale = 0.2
+normal_texture = ExtResource("2_6tdg4")
+rim = 0.0
+rim_tint = 0.6
+uv1_scale = Vector3(5, 5, 5)
+uv1_triplanar = true
+uv1_world_triplanar = true
+uv2_scale = Vector3(5, 5, 5)
+uv2_triplanar = true
+uv2_world_triplanar = true
+billboard_keep_scale = true
+grow_amount = 0.674
+proximity_fade_distance = 4083.3
