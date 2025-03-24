@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using Godot.Collections;
 
@@ -6,6 +7,7 @@ public partial class CraftAssembler : Node3D
 {
 	[Export] public Camera3D camera;
 	[Export] public float partLerpSpeed;
+	[Export] public float snapLerpSpeed;
 
 	public PartDefinition currentlyHeldPart;
 	public float distanceToPart;
@@ -29,22 +31,20 @@ public partial class CraftAssembler : Node3D
 
 			if (childNodes.Count > 1)
 			{
-				PartDefinition closestPart = null;
-				float closestPartDist = float.PositiveInfinity;
+				List<AttachNode> targetAttaches = [];
+
 				for (int i = 0; i < childNodes.Count; i++)
 				{
 					if (childNodes[i] is PartDefinition part)
 					{
-						float partDist = part.GlobalPosition.DistanceTo(currentlyHeldPart.GlobalPosition);
-						if (partDist < closestPartDist && part != currentlyHeldPart)
+						if (part != currentlyHeldPart)
 						{
-							closestPartDist = partDist;
-							closestPart = part;
+							List<AttachNode> partAttaches = part.attachNodes;
+							targetAttaches.AddRange(partAttaches);
 						}
 					}
 				}
 
-				List<AttachNode> targetAttaches = closestPart.attachNodes;
 				List<AttachNode> currentAttaches = currentlyHeldPart.attachNodes;
 
 				(attach0, 
@@ -65,7 +65,7 @@ public partial class CraftAssembler : Node3D
 			if (connectToPart)
 			{
 				Vector3 connectPosition = attach0.GlobalPosition-attach1.Position;
-				currentlyHeldPart.GlobalPosition = currentlyHeldPart.GlobalPosition.Lerp(connectPosition, partLerpSpeed*(float)delta);
+				currentlyHeldPart.GlobalPosition = currentlyHeldPart.GlobalPosition.Lerp(connectPosition, snapLerpSpeed*(float)delta);
 			}else{
 				currentlyHeldPart.GlobalPosition = currentlyHeldPart.GlobalPosition.Lerp(projectedPosition, partLerpSpeed*(float)delta);
 			}

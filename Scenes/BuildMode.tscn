@@ -223,7 +223,8 @@ scenePath = "res://Scenes/SpaceCenter.tscn"
 [node name="CurrentCraft" type="Node3D" parent="." node_paths=PackedStringArray("camera") groups=["CraftContainer"]]
 script = ExtResource("14_8srs3")
 camera = NodePath("../Cam_Pos/Cam_Rot_Y/Cam_Rot_X/Camera3D")
-partLerpSpeed = 20.0
+partLerpSpeed = 15.0
+snapLerpSpeed = 50.0
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.41348, 0)
