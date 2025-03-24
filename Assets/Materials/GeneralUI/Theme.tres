@@ -17,3 +17,4 @@ Button/styles/normal = ExtResource("1_vlywg")
 Button/styles/pressed = ExtResource("2_5fwyf")
 Label/styles/normal = ExtResource("1_mwhhf")
 Panel/styles/panel = ExtResource("5_jmk56")
+PanelContainer/styles/panel = null

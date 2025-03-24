@@ -106,7 +106,7 @@ stretch = true
 [node name="LocalView" type="SubViewport" parent="RenderLayers/LocalContainer"]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(1920, 1080)
+size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="RenderLayers/LocalContainer/LocalView"]
@@ -159,7 +159,7 @@ mesh = NodePath("GnomeVab")
 hoverGlow = ExtResource("8_0oag7")
 tooltipContainer = NodePath("../../../../../../../../IngameUI/BuildingTooltips")
 tooltip = ExtResource("12_exiaa")
-targetScene = "res://Scenes/MainMenu.tscn"
+targetScene = "res://Scenes/BuildMode.tscn"
 tooltipText = "Vehicle Assembly Building"
 
 [node name="GnomeVab" type="MeshInstance3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe/Misc/GSC_Clickable/VAB"]
@@ -221,7 +221,7 @@ stretch = true
 
 [node name="ScaledView" type="SubViewport" parent="RenderLayers/ScaledContainer"]
 handle_input_locally = false
-size = Vector2i(1920, 1080)
+size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="RenderLayers/ScaledContainer/ScaledView"]
