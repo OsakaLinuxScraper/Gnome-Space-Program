@@ -4,18 +4,18 @@ using System.Diagnostics;
 
 public partial class OrbitCam : Camera3D
 {
-	[Export] float lerpSpeed = 1.0f;
-	[Export] float rotationAmnt = 1.0f;
+	[Export] public float lerpSpeed = 1.0f;
+	[Export] public float rotationAmnt = 1.0f;
 
-	[Export] Node3D positionNode;
-	[Export] Node3D rotNode_Y;
-	[Export] Node3D rotNode_X;
+	[Export] public Node3D positionNode;
+	[Export] public Node3D rotNode_Y;
+	[Export] public Node3D rotNode_X;
 
-	[Export] Vector3 posMove = new(0,1f,0);
-	[Export] Vector3 outMove = new(0,0,1f);
+	[Export] public Vector3 posMove = new(0,1f,0);
+	[Export] public Vector3 outMove = new(0,0,1f);
 
-	[Export] Vector3 posTarget;
-	[Export] Vector3 outTarget;
+	[Export] public Vector3 posTarget;
+	[Export] public Vector3 outTarget;
 
 	private Vector3 rotTarget_Y;
 	private Vector3 rotTarget_X;

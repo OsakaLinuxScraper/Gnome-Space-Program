@@ -5,26 +5,47 @@ using Godot.Collections;
 
 public partial class CraftAssembler : Node3D
 {
-	[Export] public Camera3D camera;
+	[Export] public OrbitCam camera;
 	[Export] public float partLerpSpeed;
 	[Export] public float snapLerpSpeed;
+
+	public Craft craft = new();
 
 	public PartDefinition currentlyHeldPart;
 	public float distanceToPart;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		craft.parts = [];
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		Array<Node> childNodes = GetChildren();
+		
+		// add all the parts to the craft for final assembly if that ever comes to be
+		craft.parts.Clear();
+		foreach (Node child in childNodes)
+		{
+			if (child is PartDefinition part)
+			{
+				SavedPart partSave = new(){
+					reference = part.originalPrefab,
+					position = part.GlobalPosition,
+					rotation = part.GlobalRotationDegrees
+				};
+				craft.parts.Add(partSave);
+			}
+		}
+
 		if (currentlyHeldPart!=null)
 		{
 			Vector2 mousePos = GetViewport().GetMousePosition();
 			Vector3 projectedPosition = camera.ProjectPosition(mousePos, distanceToPart);
 
-			Array<Node> childNodes = GetChildren();
+			//Array<Node> childNodes = GetChildren();
+			
 			bool connectToPart = false;
 			AttachNode attach0 = null;
 			AttachNode attach1 = null;

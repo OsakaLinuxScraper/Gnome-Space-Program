@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dyv83fiusn5pb"]
+[gd_scene load_steps=21 format=3 uid="uid://dyv83fiusn5pb"]
 
 [ext_resource type="PackedScene" uid="uid://trw28dpmj3t6" path="res://Assets/Meshes/VAB_Interior/VAB_Interior.blend" id="1_th7se"]
 [ext_resource type="ArrayMesh" uid="uid://bmvfs84rflyx6" path="res://Assets/Meshes/VAB_Stand.obj" id="2_pofsq"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://ljsvwdkcmhft" path="res://Assets/Prefabs/Parts/MG_1_FuelTank/mg_1_fueltank.tscn" id="11_avdd4"]
 [ext_resource type="PackedScene" uid="uid://drmdivxomqm0s" path="res://Assets/Prefabs/Parts/GBRP_1_Engine/gbrp_1_engine.tscn" id="12_0e7k0"]
 [ext_resource type="Script" uid="uid://c4p5wqtqh1cpr" path="res://Scripts/SceneSwitcher.cs" id="13_7yytv"]
+[ext_resource type="Script" uid="uid://b4vkjl6q7rcvf" path="res://Scripts/LaunchCraft.cs" id="13_vhgu6"]
 [ext_resource type="Script" uid="uid://c5cx8q1qmmjts" path="res://Scripts/CraftAssembler.cs" id="14_8srs3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_otfmg"]
@@ -208,10 +209,12 @@ offset_bottom = -6.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LaunchButton" type="Button" parent="UI/MiscButtons/VBoxContainer"]
+[node name="LaunchButton" type="Button" parent="UI/MiscButtons/VBoxContainer" node_paths=PackedStringArray("craftAssembler")]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Launch"
+script = ExtResource("13_vhgu6")
+craftAssembler = NodePath("../../../../CurrentCraft")
 
 [node name="ExitButton" type="Button" parent="UI/MiscButtons/VBoxContainer"]
 layout_mode = 2
@@ -233,4 +236,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.41348, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 shape = SubResource("BoxShape3D_7yytv")
 
+[connection signal="pressed" from="UI/MiscButtons/VBoxContainer/LaunchButton" to="UI/MiscButtons/VBoxContainer/LaunchButton" method="OnClick"]
 [connection signal="pressed" from="UI/MiscButtons/VBoxContainer/ExitButton" to="UI/MiscButtons/VBoxContainer/ExitButton" method="OnClick"]

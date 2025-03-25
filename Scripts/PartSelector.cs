@@ -25,9 +25,10 @@ public partial class PartSelector : Button
 			PartDefinition part = (PartDefinition)partScene.Instantiate();
 			part.craftAssembler = craftContainer;
 			part.Freeze = true;
+			part.originalPrefab = partScene;
 			craftContainer.AddChild(part);
 			craftContainer.currentlyHeldPart = part;
-			craftContainer.distanceToPart = 10f;
+			craftContainer.distanceToPart = craftContainer.camera.GlobalPosition.DistanceTo(craftContainer.camera.posTarget);
 		}else{
 			craftContainer.currentlyHeldPart.QueueFree();
 			craftContainer.currentlyHeldPart = null;
