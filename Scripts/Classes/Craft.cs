@@ -18,7 +18,14 @@ public partial class Craft : Node
             newPart.GlobalPosition = part.position;
             newPart.GlobalRotationDegrees = part.rotation;
             newPart.inEditor = false;
+            newPart.Freeze = true;
             instancedParts.Add(newPart);
+        }
+        PartDefinition lowestPart = GetLowestPart();
+        Vector3 lowestPartPos = lowestPart.Position;
+        foreach(PartDefinition part in instancedParts)
+        {
+            part.Position -= lowestPartPos;
         }
     }
 
@@ -63,6 +70,22 @@ public partial class Craft : Node
         }
     }
 
+    public void TogglePartModules(bool status)
+    {
+        if (instancedParts != null)
+        {
+            foreach (PartDefinition part in instancedParts)
+            {
+                foreach (PartModule module in part.partModules)
+                {
+                    module.enabled = status;
+                }
+            }
+        }else{
+            GD.PrintErr("Parts have not been instanced yet!");
+        }
+    }
+
     private (AttachNode, PartDefinition) GetClosestAttach(AttachNode node0)
     {
         AttachNode closest = null;
@@ -88,5 +111,20 @@ public partial class Craft : Node
         }else{
             return (null, null);
         }
+    }
+
+    private PartDefinition GetLowestPart()
+    {
+        Vector3 lowest = new Vector3(0,float.PositiveInfinity,0);
+        PartDefinition lowestPart = null;
+        foreach (PartDefinition part in instancedParts)
+        {
+            if (part.Position.Y < lowest.Y)
+            {
+                lowest = part.Position;
+                lowestPart = part;
+            }
+        }
+        return lowestPart;
     }
 }

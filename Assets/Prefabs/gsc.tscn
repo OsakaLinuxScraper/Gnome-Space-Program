@@ -19,7 +19,7 @@ data = PackedVector3Array(-0.0006, 2.7981, -7.9205, -0.0006, 1.9474, -7.7814, -1
 [node name="GSC" type="Node3D"]
 
 [node name="VAB" type="StaticBody3D" parent="."]
-transform = Transform3D(20, 0, 0, 0, -8.74228e-07, -20, 0, 20, -8.74228e-07, 0.213623, 0, -0.375)
+transform = Transform3D(20, 0, 0, 0, 20, -2.27374e-13, 0, 2.27374e-13, 20, 0.213623, -1.93266, -0.108994)
 
 [node name="GnomeVab" type="MeshInstance3D" parent="VAB"]
 material_override = ExtResource("1_0xjul")
@@ -30,7 +30,7 @@ skeleton = NodePath("../../../../../../../../..")
 shape = SubResource("ConcavePolygonShape3D_brg3f")
 
 [node name="VABStand" type="StaticBody3D" parent="."]
-transform = Transform3D(20, 0, 0, 0, -8.74228e-07, -20, 0, 20, -8.74228e-07, 0, 0, 0)
+transform = Transform3D(20, 0, 0, 0, 20, -2.27374e-13, 0, 2.27374e-13, 20, 0, -1.55766, -0.108994)
 
 [node name="VabStand" type="MeshInstance3D" parent="VABStand"]
 material_override = ExtResource("3_4s6xp")
@@ -41,7 +41,7 @@ skeleton = NodePath("../../../../../../../../..")
 shape = SubResource("ConcavePolygonShape3D_h7oxk")
 
 [node name="LaunchPad" type="StaticBody3D" parent="."]
-transform = Transform3D(-5.95921e-08, -4.06297e-08, 1.36331, 1.36331, -1.77598e-15, 5.95921e-08, 0, 1.36331, 4.06297e-08, 0.002, -400, 7.048)
+transform = Transform3D(-5.95921e-08, -4.06297e-08, 1.36331, -5.95922e-08, 1.36331, 4.06297e-08, -1.36331, -5.95922e-08, -5.95921e-08, 0.002, 5.49036, 399.891)
 
 [node name="GnomeVab" type="MeshInstance3D" parent="LaunchPad"]
 material_override = ExtResource("5_4s6xp")

@@ -16,6 +16,7 @@ public partial class PartDefinition : RigidBody3D
 	public PackedScene originalPrefab;
 
 	public List<AttachNode> attachNodes = [];
+	public List<PartModule> partModules = [];
 
 	public CraftAssembler craftAssembler;
 
@@ -27,6 +28,9 @@ public partial class PartDefinition : RigidBody3D
 			if (child is AttachNode attachNode)
 			{
 				attachNodes.Add(attachNode);
+			}else if (child is PartModule partModule)
+			{
+				partModules.Add(partModule);
 			}
 		}
     }

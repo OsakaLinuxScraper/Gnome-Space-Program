@@ -215,6 +215,7 @@ theme_override_font_sizes/font_size = 16
 text = "Launch"
 script = ExtResource("13_vhgu6")
 craftAssembler = NodePath("../../../../CurrentCraft")
+scenePath = "res://Scenes/Universe.tscn"
 
 [node name="ExitButton" type="Button" parent="UI/MiscButtons/VBoxContainer"]
 layout_mode = 2

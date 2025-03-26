@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://5ox121mpm2ai"]
+[gd_scene load_steps=17 format=3 uid="uid://5ox121mpm2ai"]
 
 [ext_resource type="Script" uid="uid://bbk43dfl1gye2" path="res://Scripts/CameraControl.cs" id="1_d31ud"]
 [ext_resource type="PackedScene" uid="uid://dr8f57ibninqp" path="res://Assets/Prefabs/rigid_body_cube.tscn" id="2_brg3f"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://dgfxeiig7tdtd" path="res://Assets/Prefabs/gsc.tscn" id="8_0kuwm"]
 [ext_resource type="Material" uid="uid://fse6i8dj044i" path="res://Assets/Materials/Sun.tres" id="8_m06uv"]
 [ext_resource type="Texture2D" uid="uid://ck7qlvqe75vuk" path="res://Assets/Textures/sunSpikes.png" id="9_i4vn6"]
+[ext_resource type="Script" uid="uid://dvfy3eukwnfqm" path="res://Scripts/CraftManager.cs" id="11_plivw"]
 [ext_resource type="PackedScene" uid="uid://hlhaljtudxey" path="res://Assets/Prefabs/world_environment.tscn" id="12_plivw"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_lhdhw"]
@@ -97,6 +98,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("6_7jmkp")
 player = NodePath("../Camera3D")
+maxDistanceFromOrigin = 1000.0
 scaleDownFactor = 500.0
 moveForward = 2.004
 currentPlanet = NodePath("LocalContainer/LocalView/LocalSpace/Gnobe")
@@ -134,9 +136,8 @@ script = ExtResource("2_lhdhw")
 runInSeparateThread = false
 radius = 600000.0
 perQuadSubdivison = 8
-maxLevel = 15
 minRenderLevel = 5
-minColliderLevel = 14
+minColliderLevel = 12
 player = NodePath("../../../../../../Camera3D")
 material = ExtResource("2_k57b3")
 baseNoise = SubResource("FastNoiseLite_lhdhw")
@@ -159,7 +160,10 @@ detailNoise = SubResource("FastNoiseLite_2vltj")
 [node name="Misc" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe"]
 
 [node name="GSC" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe/Misc" instance=ExtResource("8_0kuwm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -881.207, 300, 601170)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -881.207, 300, 601176)
+
+[node name="LaunchLoc" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe/Misc" groups=["LaunchLocs"]]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -881.207, -100, 601187)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace"]
 transform = Transform3D(0.819152, -0.32899, -0.469846, 0, 0.819152, -0.573576, 0.573576, 0.469846, 0.67101, 0, 0, 0)
@@ -186,6 +190,9 @@ baseNoiseDeformity = 0.02
 detailNoise = SubResource("FastNoiseLite_2vltj")
 detailNoiseDeformity = 0.01
 scaledBillboard = SubResource("QuadMesh_i4vn6")
+
+[node name="LoadedCrafts" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace"]
+script = ExtResource("11_plivw")
 
 [node name="ScaledContainer" type="SubViewportContainer" parent="RenderLayers"]
 layout_mode = 1
