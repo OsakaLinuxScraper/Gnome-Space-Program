@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://drmdivxomqm0s"]
+[gd_scene load_steps=11 format=3 uid="uid://drmdivxomqm0s"]
 
 [ext_resource type="Script" uid="uid://btpp6j4bi7rfx" path="res://Scripts/PartDefinition.cs" id="1_jdvnx"]
 [ext_resource type="Texture2D" uid="uid://cme6pqqht1o5u" path="res://Assets/Textures/category_engines.png" id="2_w72t0"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dqa43c2uqx1nu" path="res://Assets/Prefabs/Parts/GBRP_1_Engine/Normal.png" id="4_heq1f"]
 [ext_resource type="Script" uid="uid://bju7ped2nl5sy" path="res://Scripts/AttachNode.cs" id="6_heq1f"]
 [ext_resource type="PackedScene" uid="uid://2u1df81enha5" path="res://Assets/Prefabs/PartModules/Gravity.tscn" id="7_fy4nm"]
+[ext_resource type="PackedScene" uid="uid://e48at2cr02s6" path="res://Assets/Prefabs/PartModules/Engine.tscn" id="8_g14cd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7trfy"]
 albedo_texture = ExtResource("3_w72t0")
@@ -44,5 +45,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
 script = ExtResource("6_heq1f")
 
 [node name="Gravity" parent="." instance=ExtResource("7_fy4nm")]
+
+[node name="Engine" parent="." instance=ExtResource("8_g14cd")]
+thrust = 100000.0
 
 [connection signal="input_event" from="." to="." method="OnInputEvent"]

@@ -20,6 +20,8 @@ public partial class PartDefinition : RigidBody3D
 
 	public CraftAssembler craftAssembler;
 
+	public FlightInfo flightInfo;
+
     public override void _Ready()
     {
         Array<Node> childNodes = GetChildren();
@@ -32,6 +34,11 @@ public partial class PartDefinition : RigidBody3D
 			{
 				partModules.Add(partModule);
 			}
+		}
+
+		if (GetParent() is FlightInfo flinfo)
+		{
+			flightInfo = flinfo;
 		}
     }
 

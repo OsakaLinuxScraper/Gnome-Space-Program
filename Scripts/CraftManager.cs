@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 public partial class CraftManager : Node3D
 {
+	[Export] public PackedScene craftContainerScene;
 	// Called when the node enters the scene tree for the first time.
 	public Node3D launchLoc;
 	public UniverseManager universeManager;
@@ -14,7 +15,7 @@ public partial class CraftManager : Node3D
 		
 		if (Globals.Launching)
 		{
-			Node3D craftContainer = new();
+			Node3D craftContainer = (Node3D)craftContainerScene.Instantiate();
 			AddChild(craftContainer);
 			GD.Print(Globals.SavedCraft);
 			Globals.Launching = false;

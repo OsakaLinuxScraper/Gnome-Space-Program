@@ -36,6 +36,8 @@ public partial class PauseMenu : Control
 		open = pause;
 		Visible = pause;
 		gameUI.Visible = !pause;
+
+		GetTree().Paused = pause;
 	}
 
 	public void UnpauseButton()

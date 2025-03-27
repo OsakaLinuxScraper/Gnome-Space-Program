@@ -16,7 +16,7 @@ public partial class Gravity : PartModule
         rb3D = (RigidBody3D)GetParent();
     }
 
-    public override void _Process(double delta)
+    public override void _PhysicsProcess(double delta)
     {
         if (enabled)
         {

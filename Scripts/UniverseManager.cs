@@ -47,6 +47,14 @@ public partial class UniverseManager : Node
 		}
 	}
 
+    public override void _Process(double delta)
+    {
+        UpdateScaled();
+    }
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    
+
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _PhysicsProcess(double delta)
 	{
@@ -76,8 +84,6 @@ public partial class UniverseManager : Node
 			
 				offsetPosition -= playerPosition;
 			}
-
-			UpdateScaled();
 		}
 	}
 

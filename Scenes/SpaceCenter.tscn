@@ -238,6 +238,7 @@ far = 2e+08
 [node name="ScaledSpace" type="Node3D" parent="RenderLayers/ScaledContainer/ScaledView" groups=["ScaledSpace"]]
 
 [node name="PauseMenu" type="Control" parent="." node_paths=PackedStringArray("gameUI")]
+process_mode = 3
 visible = false
 layout_mode = 3
 anchors_preset = 15
