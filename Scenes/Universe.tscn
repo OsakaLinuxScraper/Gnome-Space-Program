@@ -1,15 +1,17 @@
-[gd_scene load_steps=17 format=3 uid="uid://5ox121mpm2ai"]
+[gd_scene load_steps=19 format=3 uid="uid://5ox121mpm2ai"]
 
-[ext_resource type="Script" uid="uid://bbk43dfl1gye2" path="res://Scripts/CameraControl.cs" id="1_d31ud"]
-[ext_resource type="PackedScene" uid="uid://dr8f57ibninqp" path="res://Assets/Prefabs/rigid_body_cube.tscn" id="2_brg3f"]
+[ext_resource type="Theme" uid="uid://b4ia03110swah" path="res://Assets/Materials/GeneralUI/Theme.tres" id="2_brg3f"]
 [ext_resource type="Material" uid="uid://c6ajox4r7txx4" path="res://Assets/Materials/Grass.tres" id="2_k57b3"]
 [ext_resource type="Script" uid="uid://ksmq4us6ndfy" path="res://Scripts/TerrainGen.cs" id="2_lhdhw"]
+[ext_resource type="Script" uid="uid://cufh0hf3hm1cy" path="res://Scripts/PauseMenu.cs" id="3_h7oxk"]
 [ext_resource type="Material" uid="uid://d23tukoaw8yvl" path="res://Assets/Materials/Water.tres" id="3_i6dix"]
+[ext_resource type="Script" uid="uid://c4p5wqtqh1cpr" path="res://Scripts/SceneSwitcher.cs" id="4_fce38"]
 [ext_resource type="Script" uid="uid://gr3sksxxiiif" path="res://Scripts/UniverseManager.cs" id="6_7jmkp"]
 [ext_resource type="Script" uid="uid://bttvjiyoqtv5f" path="res://Scripts/Planet.cs" id="7_0kuwm"]
 [ext_resource type="PackedScene" uid="uid://dgfxeiig7tdtd" path="res://Assets/Prefabs/gsc.tscn" id="8_0kuwm"]
 [ext_resource type="Material" uid="uid://fse6i8dj044i" path="res://Assets/Materials/Sun.tres" id="8_m06uv"]
 [ext_resource type="Texture2D" uid="uid://ck7qlvqe75vuk" path="res://Assets/Textures/sunSpikes.png" id="9_i4vn6"]
+[ext_resource type="PackedScene" uid="uid://cba4211bkgp0s" path="res://Assets/Prefabs/orbit_cam.tscn" id="11_0kuwm"]
 [ext_resource type="Script" uid="uid://dvfy3eukwnfqm" path="res://Scripts/CraftManager.cs" id="11_plivw"]
 [ext_resource type="PackedScene" uid="uid://hlhaljtudxey" path="res://Assets/Prefabs/world_environment.tscn" id="12_plivw"]
 
@@ -40,54 +42,185 @@ size = Vector2(1e+07, 1e+07)
 
 [node name="Node3D" type="Node3D"]
 
-[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("speedUI", "posUI", "falsePosUI")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.108, 601000)
+[node name="OrbitCam" parent="." node_paths=PackedStringArray("remoteCam") instance=ExtResource("11_0kuwm")]
+multiplyScroll = true
+remoteCam = NodePath("../Camera")
+outMove = Vector3(1, 1, 1.1)
+outTarget = Vector3(0, 0, 10)
+
+[node name="Camera" type="Camera3D" parent="." groups=["Camera"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -891.512, 0.108031, 601607)
 cull_mask = 1047552
 far = 1e+06
-script = ExtResource("1_d31ud")
-movementSpeed = 100.0
-speedUI = NodePath("../CameraInfo/CamSpeed")
-posUI = NodePath("../CameraInfo/CamPos")
-falsePosUI = NodePath("../CameraInfo/FalsePos")
-doodad = ExtResource("2_brg3f")
 
-[node name="Local" type="RemoteTransform3D" parent="Camera3D"]
+[node name="Local" type="RemoteTransform3D" parent="Camera"]
 remote_path = NodePath("../../RenderLayers/LocalContainer/LocalView/Camera3D")
 
-[node name="Scaled" type="RemoteTransform3D" parent="Camera3D"]
+[node name="Scaled" type="RemoteTransform3D" parent="Camera"]
 remote_path = NodePath("../../RenderLayers/ScaledContainer/ScaledView/Camera3D")
 
-[node name="CameraInfo" type="Control" parent="."]
+[node name="PauseMenu" type="Control" parent="." node_paths=PackedStringArray("gameUI")]
+visible = false
 layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_brg3f")
+script = ExtResource("3_h7oxk")
+gameUI = NodePath("../FlightUI")
+
+[node name="Panel" type="Panel" parent="PauseMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -190.0
+offset_right = 150.0
+offset_bottom = 190.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(75, 100)
+
+[node name="Label" type="Label" parent="PauseMenu/Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 13.0
+offset_top = 11.0
+offset_right = -13.0
+offset_bottom = 56.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "Paused"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="PauseMenu/Panel"]
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_top = 75.0
+offset_right = 301.0
+offset_bottom = 500.0
 
-[node name="CamSpeed" type="Label" parent="CameraInfo"]
-layout_mode = 0
-offset_left = 33.0
-offset_top = 25.0
-offset_right = 88.0
-offset_bottom = 48.0
-text = "speedy"
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/Panel/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_right = -9.0
+offset_bottom = -120.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(150, 0)
+theme_override_constants/separation = 10
 
-[node name="CamPos" type="Label" parent="CameraInfo"]
-layout_mode = 0
-offset_left = 33.0
-offset_top = 54.0
-offset_right = 88.0
-offset_bottom = 77.0
-text = "true position"
+[node name="Unpause" type="Button" parent="PauseMenu/Panel/Control/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
 
-[node name="FalsePos" type="Label" parent="CameraInfo"]
-layout_mode = 0
-offset_left = 33.0
-offset_top = 82.95
-offset_right = 133.0
-offset_bottom = 105.95
-text = "false position"
+[node name="MainMenu" type="Button" parent="PauseMenu/Panel/Control/VBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+script = ExtResource("4_fce38")
+scenePath = "res://Scenes/MainMenu.tscn"
 
-[node name="RenderLayers" type="Control" parent="." node_paths=PackedStringArray("player", "currentPlanet") groups=["UniverseManager"]]
+[node name="FlightUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_brg3f")
+
+[node name="Panel" type="Panel" parent="FlightUI"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 259.0
+offset_top = -629.0
+offset_right = -259.0
+offset_bottom = -558.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FlightUI/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = -12.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FlightTime" type="VBoxContainer" parent="FlightUI/Panel/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FlightUI/Panel/HBoxContainer/FlightTime"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Flight Time"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="FlightUI/Panel/HBoxContainer/FlightTime"]
+layout_mode = 2
+text = "999999999999"
+horizontal_alignment = 1
+
+[node name="GroundAlt" type="VBoxContainer" parent="FlightUI/Panel/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FlightUI/Panel/HBoxContainer/GroundAlt"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Ground Altitude"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="FlightUI/Panel/HBoxContainer/GroundAlt"]
+layout_mode = 2
+text = "999999999999"
+horizontal_alignment = 1
+
+[node name="SeaLevelAlt" type="VBoxContainer" parent="FlightUI/Panel/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FlightUI/Panel/HBoxContainer/SeaLevelAlt"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Sea Level Altitude"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="FlightUI/Panel/HBoxContainer/SeaLevelAlt"]
+layout_mode = 2
+text = "999999999999"
+horizontal_alignment = 1
+
+[node name="Velocity" type="VBoxContainer" parent="FlightUI/Panel/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FlightUI/Panel/HBoxContainer/Velocity"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Velocity"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="FlightUI/Panel/HBoxContainer/Velocity"]
+layout_mode = 2
+text = "999999999999"
+horizontal_alignment = 1
+
+[node name="RenderLayers" type="Control" parent="." node_paths=PackedStringArray("player", "cameraPivot", "currentPlanet") groups=["UniverseManager"]]
+visible = false
 z_index = -5
 layout_mode = 3
 anchors_preset = 15
@@ -97,7 +230,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("6_7jmkp")
-player = NodePath("../Camera3D")
+player = NodePath("../Camera")
+cameraPivot = NodePath("../OrbitCam")
 maxDistanceFromOrigin = 1000.0
 scaleDownFactor = 500.0
 moveForward = 2.004
@@ -117,10 +251,10 @@ stretch = true
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1152, 648)
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="Camera3D" type="Camera3D" parent="RenderLayers/LocalContainer/LocalView"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.108, 601000)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -891.512, 0.108031, 601607)
 cull_mask = 1047553
 far = 1e+06
 
@@ -138,7 +272,7 @@ radius = 600000.0
 perQuadSubdivison = 8
 minRenderLevel = 5
 minColliderLevel = 12
-player = NodePath("../../../../../../Camera3D")
+player = NodePath("../../../../../../Camera")
 material = ExtResource("2_k57b3")
 baseNoise = SubResource("FastNoiseLite_lhdhw")
 baseNoiseDeformity = 0.02
@@ -152,7 +286,7 @@ radius = 601000.0
 perQuadSubdivison = 8
 maxLevel = 10
 minRenderLevel = 5
-player = NodePath("../../../../../../Camera3D")
+player = NodePath("../../../../../../Camera")
 material = ExtResource("3_i6dix")
 baseNoise = SubResource("FastNoiseLite_lhdhw")
 detailNoise = SubResource("FastNoiseLite_2vltj")
@@ -183,7 +317,7 @@ perQuadSubdivison = 8
 maxLevel = 15
 minRenderLevel = 5
 minColliderLevel = 9999999
-player = NodePath("../../../../../../../Camera3D")
+player = NodePath("../../../../../../../Camera")
 material = ExtResource("8_m06uv")
 baseNoise = SubResource("FastNoiseLite_lhdhw")
 baseNoiseDeformity = 0.02
@@ -206,13 +340,16 @@ stretch = true
 [node name="ScaledView" type="SubViewport" parent="RenderLayers/ScaledContainer"]
 handle_input_locally = false
 size = Vector2i(1152, 648)
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="Camera3D" type="Camera3D" parent="RenderLayers/ScaledContainer/ScaledView"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.108, 601000)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -891.512, 0.108031, 601607)
 near = 10.0
 far = 2e+08
 
 [node name="ScaledSpace" type="Node3D" parent="RenderLayers/ScaledContainer/ScaledView" groups=["ScaledSpace"]]
 
 [node name="WorldEnvironment" parent="." instance=ExtResource("12_plivw")]
+
+[connection signal="pressed" from="PauseMenu/Panel/Control/VBoxContainer/Unpause" to="PauseMenu" method="UnpauseButton"]
+[connection signal="pressed" from="PauseMenu/Panel/Control/VBoxContainer/MainMenu" to="PauseMenu/Panel/Control/VBoxContainer/MainMenu" method="OnClick"]

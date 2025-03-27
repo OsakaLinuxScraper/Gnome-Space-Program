@@ -5,7 +5,7 @@ using Godot.Collections;
 
 public partial class CraftAssembler : Node3D
 {
-	[Export] public OrbitCam camera;
+	[Export] public EditorCamera camera;
 	[Export] public float partLerpSpeed;
 	[Export] public float snapLerpSpeed;
 

@@ -12,6 +12,7 @@ height = 3.00586
 radius = 1.02588
 
 [node name="MG_1_FuelTank" type="RigidBody3D"]
+mass = 1000.0
 gravity_scale = 0.0
 script = ExtResource("1_snaps")
 cameraRot = Vector3(-24.5, 90, 0)

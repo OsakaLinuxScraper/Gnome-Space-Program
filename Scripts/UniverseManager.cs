@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using Godot.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,6 +10,7 @@ public partial class UniverseManager : Node
 {
 	[Export] public bool running = true;
 	[Export] public Node3D player;
+	[Export] public Node3D cameraPivot;
 	[Export] public float maxDistanceFromOrigin = 100;
 	[Export] public float scaleDownFactor = 10.0f;
 	//[Export] public float distanceFalloff = 10.0f;
@@ -18,6 +19,8 @@ public partial class UniverseManager : Node
 	[Export] public float moveForward = 1f;
 
 	[Export] public Planet currentPlanet;
+
+	public Camera3D currentCamera;
 	
 	public Vector3 offsetPosition;
 	public List<ScaledObject> objectList = new();
@@ -35,47 +38,34 @@ public partial class UniverseManager : Node
 
 		//scaledSpace.Scale = new Vector3(1/scaleDownFactor,1/scaleDownFactor,1/scaleDownFactor);
 
-
+		if (cameraPivot != null)
+		{
+			RemoteTransform3D camTransform = new();
+			player.GetChild(0).AddChild(camTransform);
+			camTransform.RemotePath = cameraPivot.GetPath();
+			camTransform.UpdateRotation = false;
+		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
+		// I just changed this whole thing into "Physics Process" on a whim, just to see what happens, and the flickering is GONE!?
+		// I can't help but feel angry that a solution is this simple, it must be a bad omen of some sort..
+		currentCamera = GetViewport().GetCamera3D();
 		if(running)
 		{
+			cameraPivot?.LookAt(currentPlanet.GlobalPosition, Vector3.Up);
+			cameraPivot?.Rotate(Vector3.Right, Mathf.DegToRad(90));
+
 			Vector3 playerPosition = player.GlobalPosition;
 			float playerMagnitude = playerPosition.Length();
 
 			//scaledSpace.GlobalPosition = playerPosition - offsetPosition;
 
-			Godot.Collections.Array<Node> allScaledMembers = scaledSpace.GetChildren();
-
-			Vector3 plrAdjustedPosition = player.GlobalPosition - offsetPosition;
-
-			foreach (ScaledObject obj in objectList)
-			{
-				float magnitude = (obj.truePosition - plrAdjustedPosition).Length();
-
-				//float falloffFactor = distanceFalloff * Mathf.Pow(magnitude, 0.5f);
-				//float fallonFactor = Mathf.Pow(magnitude/distanceFalloff, 1/0.5f);
-
-				//float distance = distanceFalloff * Mathf.Pow(magnitude, 0.5f); // make it decrease over dustabce to avoid blah blah blah
-				Vector3 direction = obj.truePosition.DirectionTo(plrAdjustedPosition);
-
-				float targetScale = 1/scaleDownFactor;//scaleFalloff/1000f * Mathf.Pow(magnitude, 0.5f)/scaleDownFactor;
-
-				//GD.Print(distance + " " + targetScale);
-
-				//float distToSurface = magnitude-600000;
-				
-				obj.associatedNode.Position = obj.truePosition+direction*(magnitude/(1+(moveForward/1000f))); // why the fuck is it 1.0101?
-				obj.associatedNode.Scale = new Vector3(targetScale,targetScale,targetScale);
-				//GD.Print(obj.associatedNode.GlobalPosition);
-			}
-
 			if (playerMagnitude > maxDistanceFromOrigin)
 			{
-                player.GlobalPosition -= playerPosition;
+                //player.GlobalPosition -= playerPosition;
                 //GlobalPosition -= playerPosition;
 
                 // there is a chance for everything to fall apart over time but that ok
@@ -86,6 +76,8 @@ public partial class UniverseManager : Node
 			
 				offsetPosition -= playerPosition;
 			}
+
+			UpdateScaled();
 		}
 	}
 
@@ -94,6 +86,22 @@ public partial class UniverseManager : Node
 		foreach (Node3D goon in parentNode.GetChildren().Cast<Node3D>())
 		{
 			goon.GlobalPosition -= offset;
+		}
+	}
+
+	public void UpdateScaled()
+	{
+		Vector3 plrAdjustedPosition = currentCamera.GlobalPosition - offsetPosition;
+		foreach (ScaledObject obj in objectList)
+		{
+			float magnitude = (obj.truePosition - plrAdjustedPosition).Length();
+
+			Vector3 direction = obj.truePosition.DirectionTo(plrAdjustedPosition);
+
+			float targetScale = 1/scaleDownFactor;
+
+			obj.associatedNode.Position = obj.truePosition+direction*(magnitude/(1+(moveForward/1000f))); // why the fuck is it 1.0101?
+			obj.associatedNode.Scale = new Vector3(targetScale,targetScale,targetScale);
 		}
 	}
 }

@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Diagnostics;
 
-public partial class OrbitCam : Camera3D
+public partial class EditorCamera : Camera3D
 {
 	[Export] public float lerpSpeed = 1.0f;
 	[Export] public float rotationAmnt = 1.0f;

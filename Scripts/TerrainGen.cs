@@ -5,6 +5,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+// The sphere has some really dense points near the corners, have a look at https://catlikecoding.com/unity/tutorials/cube-sphere/
+// Assuming you can find the time to update terrain, out of all the already broken things in this game.
+
 public partial class TerrainGen : Node3D
 {
     [Export] public bool runInSeparateThread = true;
@@ -107,6 +110,7 @@ public partial class TerrainGen : Node3D
 
     public override void _Process(double delta)
     {
+        player = universeManager.player;
         playerPos = player.GlobalPosition;
         planetCenter = GlobalPosition;
         //foreach (Quad quad in quadList.ToList())

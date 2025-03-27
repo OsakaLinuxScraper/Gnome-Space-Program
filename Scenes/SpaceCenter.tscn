@@ -1,5 +1,6 @@
-[gd_scene load_steps=28 format=3 uid="uid://fbrup73dcc5k"]
+[gd_scene load_steps=29 format=3 uid="uid://fbrup73dcc5k"]
 
+[ext_resource type="PackedScene" uid="uid://cba4211bkgp0s" path="res://Assets/Prefabs/orbit_cam.tscn" id="2_gicfr"]
 [ext_resource type="Script" uid="uid://gr3sksxxiiif" path="res://Scripts/UniverseManager.cs" id="3_4aor2"]
 [ext_resource type="Script" uid="uid://bttvjiyoqtv5f" path="res://Scripts/Planet.cs" id="4_eoic4"]
 [ext_resource type="Script" uid="uid://ksmq4us6ndfy" path="res://Scripts/TerrainGen.cs" id="5_qh1gc"]
@@ -57,17 +58,6 @@ size = Vector2(1e+07, 1e+07)
 
 [node name="Node3D" type="Node3D"]
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.534742, 0.227562, -0.813798, -0.843829, 0.194813, -0.5, 0.0447577, 0.954077, 0.296198, -1099.08, -50, 601234)
-cull_mask = 1047552
-far = 1e+06
-
-[node name="Local" type="RemoteTransform3D" parent="Camera3D"]
-remote_path = NodePath("../../RenderLayers/LocalContainer/LocalView/Camera3D")
-
-[node name="Scaled" type="RemoteTransform3D" parent="Camera3D"]
-remote_path = NodePath("../../RenderLayers/ScaledContainer/ScaledView/Camera3D")
-
 [node name="IngameUI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
@@ -93,7 +83,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("3_4aor2")
-player = NodePath("../Camera3D")
+player = NodePath("LocalContainer/LocalView/LocalSpace/OrbitCam")
 scaleDownFactor = 500.0
 moveForward = 2.004
 currentPlanet = NodePath("LocalContainer/LocalView/LocalSpace/Gnobe")
@@ -115,39 +105,40 @@ size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="RenderLayers/LocalContainer/LocalView"]
-transform = Transform3D(0.534742, 0.227562, -0.813798, -0.843829, 0.194813, -0.5, 0.0447577, 0.954077, 0.296198, -1099.08, -50, 601234)
 cull_mask = 1047553
 far = 1e+06
 
 [node name="LocalSpace" type="Node3D" parent="RenderLayers/LocalContainer/LocalView" groups=["LocalSpace"]]
+
+[node name="OrbitCam" parent="RenderLayers/LocalContainer/LocalView/LocalSpace" node_paths=PackedStringArray("remoteCam") instance=ExtResource("2_gicfr")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -881.207, 99.1034, 601182)
+remoteCam = NodePath("../../../../../MainCam")
 
 [node name="Gnobe" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace"]
 script = ExtResource("4_eoic4")
 geeASL = 9.8
 radius = 600000.0
 
-[node name="PQS_Container" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe" node_paths=PackedStringArray("player")]
+[node name="PQS_Container" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe"]
 script = ExtResource("5_qh1gc")
 runInSeparateThread = false
 radius = 600000.0
 perQuadSubdivison = 8
 minRenderLevel = 5
 minColliderLevel = 9999
-player = NodePath("../../../../../../Camera3D")
 material = ExtResource("6_lplsg")
 baseNoise = SubResource("FastNoiseLite_lhdhw")
 baseNoiseDeformity = 0.02
 detailNoise = SubResource("FastNoiseLite_2vltj")
 detailNoiseDeformity = 0.01
 
-[node name="PQS_Container_Ocean" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe" node_paths=PackedStringArray("player")]
+[node name="PQS_Container_Ocean" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe"]
 script = ExtResource("5_qh1gc")
 runInSeparateThread = false
 radius = 601000.0
 perQuadSubdivison = 8
 minRenderLevel = 5
 minColliderLevel = 9999
-player = NodePath("../../../../../../Camera3D")
 material = ExtResource("7_ehry5")
 baseNoise = SubResource("FastNoiseLite_lhdhw")
 detailNoise = SubResource("FastNoiseLite_2vltj")
@@ -210,7 +201,7 @@ directional_shadow_max_distance = 2680.8
 [node name="Sun" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/DirectionalLight3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.49598e+10)
 
-[node name="PQS_Container" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/DirectionalLight3D/Sun" node_paths=PackedStringArray("player")]
+[node name="PQS_Container" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/DirectionalLight3D/Sun"]
 script = ExtResource("5_qh1gc")
 runInSeparateThread = false
 radius = 6.957e+07
@@ -218,7 +209,6 @@ perQuadSubdivison = 8
 maxLevel = 15
 minRenderLevel = 5
 minColliderLevel = 9999999
-player = NodePath("../../../../../../../Camera3D")
 material = ExtResource("10_qsb58")
 baseNoise = SubResource("FastNoiseLite_lhdhw")
 baseNoiseDeformity = 0.02
@@ -233,6 +223,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 stretch = true
 
 [node name="ScaledView" type="SubViewport" parent="RenderLayers/ScaledContainer"]
@@ -241,7 +232,6 @@ size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="RenderLayers/ScaledContainer/ScaledView"]
-transform = Transform3D(0.534742, 0.227562, -0.813798, -0.843829, 0.194813, -0.5, 0.0447577, 0.954077, 0.296198, -1099.08, -50, 601234)
 near = 10.0
 far = 2e+08
 
@@ -318,6 +308,14 @@ script = ExtResource("15_qh1gc")
 scenePath = "res://Scenes/MainMenu.tscn"
 
 [node name="WorldEnvironment" parent="." instance=ExtResource("16_lplsg")]
+
+[node name="MainCam" type="Camera3D" parent="."]
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="MainCam"]
+remote_path = NodePath("../../RenderLayers/LocalContainer/LocalView/Camera3D")
+
+[node name="RemoteTransform3D2" type="RemoteTransform3D" parent="MainCam"]
+remote_path = NodePath("../../RenderLayers/ScaledContainer/ScaledView/Camera3D")
 
 [connection signal="input_event" from="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe/Misc/GSC_Clickable/VAB" to="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe/Misc/GSC_Clickable/VAB" method="OnInputEvent"]
 [connection signal="mouse_entered" from="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe/Misc/GSC_Clickable/VAB" to="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe/Misc/GSC_Clickable/VAB" method="OnMouseEntered"]

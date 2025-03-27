@@ -6,9 +6,11 @@ public partial class CraftManager : Node3D
 {
 	// Called when the node enters the scene tree for the first time.
 	public Node3D launchLoc;
+	public UniverseManager universeManager;
 	public override void _Ready()
 	{
 		launchLoc = (Node3D)GetTree().GetFirstNodeInGroup("LaunchLocs");
+		universeManager = (UniverseManager)GetTree().GetFirstNodeInGroup("UniverseManager");
 		
 		if (Globals.Launching)
 		{
@@ -23,6 +25,8 @@ public partial class CraftManager : Node3D
 			craftContainer.GlobalRotationDegrees = launchLoc.GlobalRotationDegrees;
 			Globals.SavedCraft.FreezeCraft(false);
 			Globals.SavedCraft.TogglePartModules(true);
+
+			universeManager.player = Globals.SavedCraft.instancedParts[0];
 		}
 	}
 

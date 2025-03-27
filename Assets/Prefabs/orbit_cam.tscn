@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://cba4211bkgp0s"]
+
+[ext_resource type="Script" uid="uid://c4pl1exv76wg4" path="res://Scripts/OrbitCamera.cs" id="1_ogem2"]
+
+[node name="OrbitCam" type="Node3D" node_paths=PackedStringArray("rotNode_Y", "rotNode_X", "camera")]
+script = ExtResource("1_ogem2")
+lerpSpeed = 10.0
+rotationAmnt = 0.1
+rotNode_Y = NodePath("Cam_Rot_Y")
+rotNode_X = NodePath("Cam_Rot_Y/Cam_Rot_X")
+camera = NodePath("Cam_Rot_Y/Cam_Rot_X/RemoteTransform3D")
+outMove = Vector3(0, 0, 10)
+outTarget = Vector3(0, 0, 250)
+
+[node name="Cam_Rot_Y" type="Node3D" parent="."]
+transform = Transform3D(0.573576, 0, -0.819152, 0, 1, 0, 0.819152, 0, 0.573576, 0, 0, 0)
+
+[node name="Cam_Rot_X" type="Node3D" parent="Cam_Rot_Y"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Cam_Rot_Y/Cam_Rot_X"]
