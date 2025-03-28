@@ -26,7 +26,7 @@ public partial class Gravity : PartModule
             Vector3 direction = rb3D.GlobalPosition.DirectionTo(center);
             float distance = (center - rb3D.GlobalPosition).Length();
             float planetMass = currentPlanet.mass;
-            float objectMass = rb3D.Mass;
+            float objectMass = 1000f;//rb3D.Mass;
 
             float force = gravConstant * planetMass * objectMass / Mathf.Pow(distance, 2);
             

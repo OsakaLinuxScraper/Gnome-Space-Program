@@ -49,7 +49,12 @@ public partial class UniverseManager : Node
 
     public override void _Process(double delta)
     {
-        UpdateScaled();
+		if (running)
+		{
+			UpdateScaled();
+			cameraPivot?.LookAt(currentPlanet.GlobalPosition, Vector3.Up);
+			cameraPivot?.Rotate(Vector3.Right, Mathf.DegToRad(90));
+		}
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -61,11 +66,9 @@ public partial class UniverseManager : Node
 		// I just changed this whole thing into "Physics Process" on a whim, just to see what happens, and the flickering is GONE!?
 		// I can't help but feel angry that a solution is this simple, it must be a bad omen of some sort..
 		currentCamera = GetViewport().GetCamera3D();
+		//GD.Print(currentCamera);
 		if(running)
 		{
-			cameraPivot?.LookAt(currentPlanet.GlobalPosition, Vector3.Up);
-			cameraPivot?.Rotate(Vector3.Right, Mathf.DegToRad(90));
-
 			Vector3 playerPosition = player.GlobalPosition;
 			float playerMagnitude = playerPosition.Length();
 

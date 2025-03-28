@@ -47,6 +47,6 @@ script = ExtResource("6_heq1f")
 [node name="Gravity" parent="." instance=ExtResource("7_fy4nm")]
 
 [node name="Engine" parent="." instance=ExtResource("8_g14cd")]
-thrust = 100000.0
+thrust = 5000.0
 
 [connection signal="input_event" from="." to="." method="OnInputEvent"]

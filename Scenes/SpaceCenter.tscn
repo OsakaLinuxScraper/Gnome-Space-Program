@@ -101,7 +101,7 @@ stretch = true
 [node name="LocalView" type="SubViewport" parent="RenderLayers/LocalContainer"]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(1152, 648)
+size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="RenderLayers/LocalContainer/LocalView"]
@@ -111,7 +111,7 @@ far = 1e+06
 [node name="LocalSpace" type="Node3D" parent="RenderLayers/LocalContainer/LocalView" groups=["LocalSpace"]]
 
 [node name="OrbitCam" parent="RenderLayers/LocalContainer/LocalView/LocalSpace" node_paths=PackedStringArray("remoteCam") instance=ExtResource("2_gicfr")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -881.207, 99.1034, 601182)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -881.207, 99.103, 600182)
 remoteCam = NodePath("../../../../../MainCam")
 
 [node name="Gnobe" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace"]
@@ -122,7 +122,7 @@ radius = 600000.0
 [node name="PQS_Container" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe"]
 script = ExtResource("5_qh1gc")
 runInSeparateThread = false
-radius = 600000.0
+radius = 599000.0
 perQuadSubdivison = 8
 minRenderLevel = 5
 minColliderLevel = 9999
@@ -135,7 +135,7 @@ detailNoiseDeformity = 0.01
 [node name="PQS_Container_Ocean" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe"]
 script = ExtResource("5_qh1gc")
 runInSeparateThread = false
-radius = 601000.0
+radius = 600000.0
 perQuadSubdivison = 8
 minRenderLevel = 5
 minColliderLevel = 9999
@@ -146,7 +146,7 @@ detailNoise = SubResource("FastNoiseLite_2vltj")
 [node name="Misc" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe"]
 
 [node name="GSC_Clickable" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe/Misc"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -881.207, 300, 601170)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -881.207, 300, 600170)
 
 [node name="VAB" type="Area3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe/Misc/GSC_Clickable" node_paths=PackedStringArray("mesh", "tooltipContainer")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.314331, 0, -0.3125)
@@ -228,7 +228,7 @@ stretch = true
 
 [node name="ScaledView" type="SubViewport" parent="RenderLayers/ScaledContainer"]
 handle_input_locally = false
-size = Vector2i(1152, 648)
+size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="RenderLayers/ScaledContainer/ScaledView"]

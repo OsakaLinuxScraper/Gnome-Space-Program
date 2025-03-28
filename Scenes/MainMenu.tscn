@@ -51,7 +51,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("3_fh7cp")
-player = NodePath("LocalContainer/LocalView/LocalSpace/CamContainer/Camera3D")
+player = NodePath("../Camera3D")
 scaleDownFactor = 500.0
 moveForward = 2.004
 currentPlanet = NodePath("LocalContainer/LocalView/LocalSpace/Gnobe")
@@ -69,7 +69,7 @@ stretch = true
 [node name="LocalView" type="SubViewport" parent="RenderLayers/LocalContainer"]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(1152, 648)
+size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="RenderLayers/LocalContainer/LocalView"]
@@ -93,7 +93,7 @@ perQuadSubdivison = 8
 maxLevel = 15
 minRenderLevel = 5
 minColliderLevel = 14
-player = NodePath("../../CamContainer/Camera3D")
+player = NodePath("../../../../../../Camera3D")
 material = ExtResource("6_2x1g0")
 baseNoise = SubResource("FastNoiseLite_lhdhw")
 baseNoiseDeformity = 0.02
@@ -107,7 +107,7 @@ radius = 601000.0
 perQuadSubdivison = 8
 maxLevel = 10
 minRenderLevel = 5
-player = NodePath("../../CamContainer/Camera3D")
+player = NodePath("../../../../../../Camera3D")
 material = ExtResource("7_riqfo")
 baseNoise = SubResource("FastNoiseLite_lhdhw")
 detailNoise = SubResource("FastNoiseLite_2vltj")
@@ -132,7 +132,7 @@ perQuadSubdivison = 8
 maxLevel = 15
 minRenderLevel = 5
 minColliderLevel = 9999999
-player = NodePath("../../../CamContainer/Camera3D")
+player = NodePath("../../../../../../../Camera3D")
 material = ExtResource("10_pjscj")
 baseNoise = SubResource("FastNoiseLite_lhdhw")
 baseNoiseDeformity = 0.02
@@ -142,25 +142,18 @@ scaledBillboard = SubResource("QuadMesh_i4vn6")
 
 [node name="CamContainer" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace"]
 
-[node name="Camera3D" type="Camera3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/CamContainer"]
-transform = Transform3D(-0.527149, -0.126524, 0.840301, 0.663414, 0.55667, 0.5, -0.531032, 0.821042, -0.209511, 0, 0, 0)
-cull_mask = 1047552
-far = 1e+06
-script = ExtResource("1_rrcx7")
-moveAmnt = 20.0
-
-[node name="Local" type="RemoteTransform3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/CamContainer/Camera3D"]
-remote_path = NodePath("../../../../Camera3D")
-
-[node name="Scaled" type="RemoteTransform3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/CamContainer/Camera3D"]
-remote_path = NodePath("../../../../../../ScaledContainer/ScaledView/Camera3D")
-
 [node name="Sprite3D" type="Sprite3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/CamContainer"]
 transform = Transform3D(4.13511, 0, 0, 0, 4.13511, 0, 0, 0, 4.13511, -38.117, 36.8222, -50.7334)
 modulate = Color(1, 1, 1, 0.313726)
 billboard = 1
 double_sided = false
 texture = ExtResource("13_fh7cp")
+
+[node name="CamTransform" type="RemoteTransform3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/CamContainer"]
+transform = Transform3D(-0.527149, -0.126524, 0.840301, 0.663414, 0.55667, 0.5, -0.531032, 0.821042, -0.20951, 0, 0, 0)
+remote_path = NodePath("../../../../../../Camera3D")
+script = ExtResource("1_rrcx7")
+moveAmnt = 20.0
 
 [node name="ScaledContainer" type="SubViewportContainer" parent="RenderLayers"]
 layout_mode = 1
@@ -173,7 +166,7 @@ stretch = true
 
 [node name="ScaledView" type="SubViewport" parent="RenderLayers/ScaledContainer"]
 handle_input_locally = false
-size = Vector2i(1152, 648)
+size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="RenderLayers/ScaledContainer/ScaledView"]
@@ -223,6 +216,17 @@ text = "Quit"
 script = ExtResource("12_fh7cp")
 
 [node name="WorldEnvironment" parent="." instance=ExtResource("14_8e205")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.527149, -0.126524, 0.840301, 0.663414, 0.55667, 0.5, -0.531032, 0.821042, -0.20951, 0, 0, 0)
+cull_mask = 1047552
+far = 1e+06
+
+[node name="Local" type="RemoteTransform3D" parent="Camera3D"]
+remote_path = NodePath("../../RenderLayers/LocalContainer/LocalView/Camera3D")
+
+[node name="Scaled" type="RemoteTransform3D" parent="Camera3D"]
+remote_path = NodePath("../../RenderLayers/ScaledContainer/ScaledView/Camera3D")
 
 [connection signal="pressed" from="MainMenuUI/VBoxContainer/Start" to="MainMenuUI/VBoxContainer/Start" method="OnClick"]
 [connection signal="pressed" from="MainMenuUI/VBoxContainer/QuitGame" to="MainMenuUI/VBoxContainer/QuitGame" method="OnClick"]

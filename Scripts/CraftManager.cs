@@ -15,7 +15,7 @@ public partial class CraftManager : Node3D
 		
 		if (Globals.Launching)
 		{
-			Node3D craftContainer = (Node3D)craftContainerScene.Instantiate();
+			FlightInfo craftContainer = (FlightInfo)craftContainerScene.Instantiate();
 			AddChild(craftContainer);
 			GD.Print(Globals.SavedCraft);
 			Globals.Launching = false;
@@ -24,6 +24,8 @@ public partial class CraftManager : Node3D
 			//Globals.SavedCraft.FreezeCraft(false);
 			craftContainer.GlobalPosition = launchLoc.GlobalPosition;
 			craftContainer.GlobalRotationDegrees = launchLoc.GlobalRotationDegrees;
+			craftContainer.targetRotation = launchLoc.GlobalRotation;
+			craftContainer.rootPart = Globals.SavedCraft.instancedParts[0];
 			Globals.SavedCraft.FreezeCraft(false);
 			Globals.SavedCraft.TogglePartModules(true);
 
@@ -32,7 +34,7 @@ public partial class CraftManager : Node3D
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
+	//public override void _Process(double delta)
+	//{
+	//}
 }

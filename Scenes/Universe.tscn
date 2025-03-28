@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://5ox121mpm2ai"]
+[gd_scene load_steps=23 format=3 uid="uid://5ox121mpm2ai"]
 
 [ext_resource type="Theme" uid="uid://b4ia03110swah" path="res://Assets/Materials/GeneralUI/Theme.tres" id="2_brg3f"]
 [ext_resource type="Material" uid="uid://c6ajox4r7txx4" path="res://Assets/Materials/Grass.tres" id="2_k57b3"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cufh0hf3hm1cy" path="res://Scripts/PauseMenu.cs" id="3_h7oxk"]
 [ext_resource type="Material" uid="uid://d23tukoaw8yvl" path="res://Assets/Materials/Water.tres" id="3_i6dix"]
 [ext_resource type="Script" uid="uid://c4p5wqtqh1cpr" path="res://Scripts/SceneSwitcher.cs" id="4_fce38"]
+[ext_resource type="Material" uid="uid://f7ph3sm1vmfr" path="res://Assets/Materials/navball.tres" id="4_tw5oi"]
 [ext_resource type="Script" uid="uid://ctskhqca1tlrv" path="res://Scripts/FlightUi.cs" id="5_fce38"]
 [ext_resource type="Script" uid="uid://gr3sksxxiiif" path="res://Scripts/UniverseManager.cs" id="6_7jmkp"]
 [ext_resource type="Script" uid="uid://bttvjiyoqtv5f" path="res://Scripts/Planet.cs" id="7_0kuwm"]
@@ -16,6 +17,9 @@
 [ext_resource type="Script" uid="uid://dvfy3eukwnfqm" path="res://Scripts/CraftManager.cs" id="11_plivw"]
 [ext_resource type="PackedScene" uid="uid://hlhaljtudxey" path="res://Assets/Prefabs/world_environment.tscn" id="12_plivw"]
 [ext_resource type="PackedScene" uid="uid://bbfeq7evhiyvn" path="res://Assets/Prefabs/CraftContainer.tscn" id="14_h7oxk"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_fce38"]
+material = ExtResource("4_tw5oi")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_lhdhw"]
 frequency = 0.0281
@@ -60,6 +64,253 @@ remote_path = NodePath("../../RenderLayers/LocalContainer/LocalView/Camera3D")
 
 [node name="Scaled" type="RemoteTransform3D" parent="Camera"]
 remote_path = NodePath("../../RenderLayers/ScaledContainer/ScaledView/Camera3D")
+
+[node name="FlightUI" type="Control" parent="." node_paths=PackedStringArray("throttleBar", "navball", "altitude", "velocity") groups=["FlightUI"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_brg3f")
+script = ExtResource("5_fce38")
+throttleBar = NodePath("Panel2/ThrottleBar")
+navball = NodePath("Panel2/SubViewportContainer/SubViewport/Navball")
+altitude = NodePath("Panel/HBoxContainer/SeaLevelAlt/SeaLevelAlt")
+velocity = NodePath("Panel/HBoxContainer/Velocity/Velocity")
+
+[node name="Panel" type="Panel" parent="FlightUI"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 227.0
+offset_top = -86.0
+offset_right = -1365.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FlightUI/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = -12.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SeaLevelAlt" type="VBoxContainer" parent="FlightUI/Panel/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FlightUI/Panel/HBoxContainer/SeaLevelAlt"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Sea Level Altitude"
+horizontal_alignment = 1
+
+[node name="SeaLevelAlt" type="Label" parent="FlightUI/Panel/HBoxContainer/SeaLevelAlt"]
+layout_mode = 2
+text = "999999999999"
+horizontal_alignment = 1
+
+[node name="Velocity" type="VBoxContainer" parent="FlightUI/Panel/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FlightUI/Panel/HBoxContainer/Velocity"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Velocity"
+horizontal_alignment = 1
+
+[node name="Velocity" type="Label" parent="FlightUI/Panel/HBoxContainer/Velocity"]
+layout_mode = 2
+text = "999999999999"
+horizontal_alignment = 1
+
+[node name="Panel2" type="Panel" parent="FlightUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = -180.0
+offset_right = 211.0
+offset_bottom = -15.0
+
+[node name="ThrottleBar" type="ProgressBar" parent="FlightUI/Panel2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 156.0
+offset_right = -40.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5708
+theme_override_font_sizes/font_size = 12
+max_value = 1.0
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="FlightUI/Panel2"]
+texture_filter = 6
+layout_mode = 0
+offset_left = 36.0
+offset_top = 9.0
+offset_right = 188.0
+offset_bottom = 156.0
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="FlightUI/Panel2/SubViewportContainer"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(152, 147)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="FlightUI/Panel2/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, -1)
+projection = 1
+
+[node name="Navball" type="MeshInstance3D" parent="FlightUI/Panel2/SubViewportContainer/SubViewport"]
+mesh = SubResource("SphereMesh_fce38")
+
+[node name="RenderLayers" type="Control" parent="." node_paths=PackedStringArray("player", "cameraPivot", "currentPlanet") groups=["UniverseManager"]]
+z_index = -5
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_7jmkp")
+player = NodePath("../Camera")
+cameraPivot = NodePath("../OrbitCam")
+maxDistanceFromOrigin = 1000.0
+scaleDownFactor = 500.0
+moveForward = 2.004
+currentPlanet = NodePath("LocalContainer/LocalView/LocalSpace/Gnobe")
+
+[node name="LocalContainer" type="SubViewportContainer" parent="RenderLayers"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="LocalView" type="SubViewport" parent="RenderLayers/LocalContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="RenderLayers/LocalContainer/LocalView"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -891.512, 0.108031, 601607)
+cull_mask = 1047553
+far = 1e+06
+
+[node name="LocalSpace" type="Node3D" parent="RenderLayers/LocalContainer/LocalView" groups=["LocalSpace"]]
+
+[node name="Gnobe" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace"]
+script = ExtResource("7_0kuwm")
+geeASL = 9.8
+radius = 600000.0
+
+[node name="PQS_Container" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe" node_paths=PackedStringArray("player")]
+script = ExtResource("2_lhdhw")
+runInSeparateThread = false
+radius = 599000.0
+perQuadSubdivison = 8
+minRenderLevel = 5
+minColliderLevel = 12
+player = NodePath("../../../../../../Camera")
+material = ExtResource("2_k57b3")
+baseNoise = SubResource("FastNoiseLite_lhdhw")
+baseNoiseDeformity = 0.02
+detailNoise = SubResource("FastNoiseLite_2vltj")
+detailNoiseDeformity = 0.01
+
+[node name="PQS_Container_Ocean" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe" node_paths=PackedStringArray("player")]
+script = ExtResource("2_lhdhw")
+runInSeparateThread = false
+radius = 600000.0
+perQuadSubdivison = 8
+maxLevel = 10
+minRenderLevel = 5
+player = NodePath("../../../../../../Camera")
+material = ExtResource("3_i6dix")
+baseNoise = SubResource("FastNoiseLite_lhdhw")
+detailNoise = SubResource("FastNoiseLite_2vltj")
+
+[node name="Misc" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe"]
+
+[node name="GSC" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe/Misc" instance=ExtResource("8_0kuwm")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -881.207, 300, 600176)
+
+[node name="LaunchLoc" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe/Misc" groups=["LaunchLocs"]]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -881.207, -100, 600187)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace"]
+transform = Transform3D(0.819152, -0.32899, -0.469846, 0, 0.819152, -0.573576, 0.573576, 0.469846, 0.67101, 0, 0, 0)
+shadow_enabled = true
+directional_shadow_mode = 0
+directional_shadow_fade_start = 0.385
+directional_shadow_max_distance = 2680.8
+
+[node name="Sun" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/DirectionalLight3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.49598e+10)
+
+[node name="PQS_Container" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/DirectionalLight3D/Sun" node_paths=PackedStringArray("player")]
+script = ExtResource("2_lhdhw")
+runInSeparateThread = false
+radius = 6.957e+07
+perQuadSubdivison = 8
+maxLevel = 15
+minRenderLevel = 5
+minColliderLevel = 9999999
+player = NodePath("../../../../../../../Camera")
+material = ExtResource("8_m06uv")
+baseNoise = SubResource("FastNoiseLite_lhdhw")
+baseNoiseDeformity = 0.02
+detailNoise = SubResource("FastNoiseLite_2vltj")
+detailNoiseDeformity = 0.01
+scaledBillboard = SubResource("QuadMesh_i4vn6")
+
+[node name="LoadedCrafts" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace"]
+script = ExtResource("11_plivw")
+craftContainerScene = ExtResource("14_h7oxk")
+
+[node name="ScaledContainer" type="SubViewportContainer" parent="RenderLayers"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="ScaledView" type="SubViewport" parent="RenderLayers/ScaledContainer"]
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="RenderLayers/ScaledContainer/ScaledView"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -891.512, 0.108031, 601607)
+near = 10.0
+far = 2e+08
+
+[node name="ScaledSpace" type="Node3D" parent="RenderLayers/ScaledContainer/ScaledView" groups=["ScaledSpace"]]
+
+[node name="WorldEnvironment" parent="." instance=ExtResource("12_plivw")]
 
 [node name="PauseMenu" type="Control" parent="." node_paths=PackedStringArray("gameUI")]
 process_mode = 3
@@ -131,256 +382,6 @@ layout_mode = 2
 text = "Main Menu"
 script = ExtResource("4_fce38")
 scenePath = "res://Scenes/MainMenu.tscn"
-
-[node name="FlightUI" type="Control" parent="." node_paths=PackedStringArray("throttleBar") groups=["FlightUI"]]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("2_brg3f")
-script = ExtResource("5_fce38")
-throttleBar = NodePath("Panel2/ThrottleBar")
-
-[node name="Panel" type="Panel" parent="FlightUI"]
-visible = false
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 259.0
-offset_top = -629.0
-offset_right = -259.0
-offset_bottom = -558.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="FlightUI/Panel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 12.0
-offset_top = 12.0
-offset_right = -12.0
-offset_bottom = -11.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="FlightTime" type="VBoxContainer" parent="FlightUI/Panel/HBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="FlightUI/Panel/HBoxContainer/FlightTime"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-text = "Flight Time"
-horizontal_alignment = 1
-
-[node name="Label2" type="Label" parent="FlightUI/Panel/HBoxContainer/FlightTime"]
-layout_mode = 2
-text = "999999999999"
-horizontal_alignment = 1
-
-[node name="GroundAlt" type="VBoxContainer" parent="FlightUI/Panel/HBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="FlightUI/Panel/HBoxContainer/GroundAlt"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-text = "Ground Altitude"
-horizontal_alignment = 1
-
-[node name="Label2" type="Label" parent="FlightUI/Panel/HBoxContainer/GroundAlt"]
-layout_mode = 2
-text = "999999999999"
-horizontal_alignment = 1
-
-[node name="SeaLevelAlt" type="VBoxContainer" parent="FlightUI/Panel/HBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="FlightUI/Panel/HBoxContainer/SeaLevelAlt"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-text = "Sea Level Altitude"
-horizontal_alignment = 1
-
-[node name="Label2" type="Label" parent="FlightUI/Panel/HBoxContainer/SeaLevelAlt"]
-layout_mode = 2
-text = "999999999999"
-horizontal_alignment = 1
-
-[node name="Velocity" type="VBoxContainer" parent="FlightUI/Panel/HBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="FlightUI/Panel/HBoxContainer/Velocity"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-text = "Velocity"
-horizontal_alignment = 1
-
-[node name="Label2" type="Label" parent="FlightUI/Panel/HBoxContainer/Velocity"]
-layout_mode = 2
-text = "999999999999"
-horizontal_alignment = 1
-
-[node name="Panel2" type="Panel" parent="FlightUI"]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 15.0
-offset_top = -169.0
-offset_right = 183.0
-offset_bottom = -15.0
-
-[node name="ThrottleBar" type="ProgressBar" parent="FlightUI/Panel2"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 146.0
-offset_right = -21.0
-offset_bottom = 13.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = -1.5708
-theme_override_font_sizes/font_size = 12
-max_value = 1.0
-
-[node name="RenderLayers" type="Control" parent="." node_paths=PackedStringArray("player", "cameraPivot", "currentPlanet") groups=["UniverseManager"]]
-z_index = -5
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_7jmkp")
-player = NodePath("../Camera")
-cameraPivot = NodePath("../OrbitCam")
-maxDistanceFromOrigin = 1000.0
-scaleDownFactor = 500.0
-moveForward = 2.004
-currentPlanet = NodePath("LocalContainer/LocalView/LocalSpace/Gnobe")
-
-[node name="LocalContainer" type="SubViewportContainer" parent="RenderLayers"]
-z_index = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-stretch = true
-
-[node name="LocalView" type="SubViewport" parent="RenderLayers/LocalContainer"]
-transparent_bg = true
-handle_input_locally = false
-size = Vector2i(1152, 648)
-render_target_update_mode = 4
-
-[node name="Camera3D" type="Camera3D" parent="RenderLayers/LocalContainer/LocalView"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -891.512, 0.108031, 601607)
-cull_mask = 1047553
-far = 1e+06
-
-[node name="LocalSpace" type="Node3D" parent="RenderLayers/LocalContainer/LocalView" groups=["LocalSpace"]]
-
-[node name="Gnobe" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace"]
-script = ExtResource("7_0kuwm")
-geeASL = 9.8
-radius = 600000.0
-
-[node name="PQS_Container" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe" node_paths=PackedStringArray("player")]
-script = ExtResource("2_lhdhw")
-runInSeparateThread = false
-radius = 600000.0
-perQuadSubdivison = 8
-minRenderLevel = 5
-minColliderLevel = 12
-player = NodePath("../../../../../../Camera")
-material = ExtResource("2_k57b3")
-baseNoise = SubResource("FastNoiseLite_lhdhw")
-baseNoiseDeformity = 0.02
-detailNoise = SubResource("FastNoiseLite_2vltj")
-detailNoiseDeformity = 0.01
-
-[node name="PQS_Container_Ocean" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe" node_paths=PackedStringArray("player")]
-script = ExtResource("2_lhdhw")
-runInSeparateThread = false
-radius = 601000.0
-perQuadSubdivison = 8
-maxLevel = 10
-minRenderLevel = 5
-player = NodePath("../../../../../../Camera")
-material = ExtResource("3_i6dix")
-baseNoise = SubResource("FastNoiseLite_lhdhw")
-detailNoise = SubResource("FastNoiseLite_2vltj")
-
-[node name="Misc" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe"]
-
-[node name="GSC" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe/Misc" instance=ExtResource("8_0kuwm")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -881.207, 300, 601176)
-
-[node name="LaunchLoc" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/Gnobe/Misc" groups=["LaunchLocs"]]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -881.207, -100, 601187)
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace"]
-transform = Transform3D(0.819152, -0.32899, -0.469846, 0, 0.819152, -0.573576, 0.573576, 0.469846, 0.67101, 0, 0, 0)
-shadow_enabled = true
-directional_shadow_mode = 0
-directional_shadow_fade_start = 0.385
-directional_shadow_max_distance = 2680.8
-
-[node name="Sun" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/DirectionalLight3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.49598e+10)
-
-[node name="PQS_Container" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace/DirectionalLight3D/Sun" node_paths=PackedStringArray("player")]
-script = ExtResource("2_lhdhw")
-runInSeparateThread = false
-radius = 6.957e+07
-perQuadSubdivison = 8
-maxLevel = 15
-minRenderLevel = 5
-minColliderLevel = 9999999
-player = NodePath("../../../../../../../Camera")
-material = ExtResource("8_m06uv")
-baseNoise = SubResource("FastNoiseLite_lhdhw")
-baseNoiseDeformity = 0.02
-detailNoise = SubResource("FastNoiseLite_2vltj")
-detailNoiseDeformity = 0.01
-scaledBillboard = SubResource("QuadMesh_i4vn6")
-
-[node name="LoadedCrafts" type="Node3D" parent="RenderLayers/LocalContainer/LocalView/LocalSpace"]
-script = ExtResource("11_plivw")
-craftContainerScene = ExtResource("14_h7oxk")
-
-[node name="ScaledContainer" type="SubViewportContainer" parent="RenderLayers"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-stretch = true
-
-[node name="ScaledView" type="SubViewport" parent="RenderLayers/ScaledContainer"]
-handle_input_locally = false
-size = Vector2i(1152, 648)
-render_target_update_mode = 4
-
-[node name="Camera3D" type="Camera3D" parent="RenderLayers/ScaledContainer/ScaledView"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -891.512, 0.108031, 601607)
-near = 10.0
-far = 2e+08
-
-[node name="ScaledSpace" type="Node3D" parent="RenderLayers/ScaledContainer/ScaledView" groups=["ScaledSpace"]]
-
-[node name="WorldEnvironment" parent="." instance=ExtResource("12_plivw")]
 
 [connection signal="pressed" from="PauseMenu/Panel/Control/VBoxContainer/Unpause" to="PauseMenu" method="UnpauseButton"]
 [connection signal="pressed" from="PauseMenu/Panel/Control/VBoxContainer/MainMenu" to="PauseMenu/Panel/Control/VBoxContainer/MainMenu" method="OnClick"]

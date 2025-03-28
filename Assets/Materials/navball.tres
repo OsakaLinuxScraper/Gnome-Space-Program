@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://f7ph3sm1vmfr"]
+
+[ext_resource type="Texture2D" uid="uid://dmmhsg584cj1v" path="res://Assets/Textures/navball.png" id="1_defst"]
+
+[resource]
+shading_mode = 0
+albedo_texture = ExtResource("1_defst")
+texture_filter = 5
