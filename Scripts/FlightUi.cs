@@ -7,4 +7,5 @@ public partial class FlightUi : Control
 	[Export] public MeshInstance3D navball;
 	[Export] public Label altitude;
 	[Export] public Label velocity;
+	[Export] public HBoxContainer ivaContainer;
 }

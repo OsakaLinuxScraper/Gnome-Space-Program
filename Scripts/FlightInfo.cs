@@ -47,7 +47,26 @@ public partial class FlightInfo : Node3D
             flightUi.navball.GlobalRotation += rootPart.GlobalRotation;
 
             float altitudeFromCore = universeManager.currentPlanet.GlobalPosition.DistanceTo(rootPart.GlobalPosition);
-            flightUi.altitude.Text = altitudeFromCore - universeManager.currentPlanet.radius + "m";
+            flightUi.altitude.Text = Math.Round((altitudeFromCore - universeManager.currentPlanet.radius)*100)/100 + "m";
+
+            flightUi.velocity.Text = Math.Round(((RigidBody3D)rootPart).LinearVelocity.Length()*100)/100 + "m/s";
+        }
+    }
+
+    public void createIVAUI(Craft craft)
+    {
+        foreach (PartDefinition part in craft.instancedParts)
+        {
+            foreach (PartModule module in part.partModules)
+            {
+                if (module is Iva iva)
+                {
+                    TextureRect textureRect = new();
+                    flightUi.ivaContainer.AddChild(textureRect);
+
+                    textureRect.Texture = iva.IVAview.GetTexture();
+                }
+            }
         }
     }
 

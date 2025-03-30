@@ -30,6 +30,8 @@ public partial class CraftManager : Node3D
 			Globals.SavedCraft.TogglePartModules(true);
 
 			universeManager.player = Globals.SavedCraft.instancedParts[0];
+
+			craftContainer.createIVAUI(Globals.SavedCraft);
 		}
 	}
 

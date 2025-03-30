@@ -7,6 +7,7 @@ public partial class SceneSwitcher : Node
     public void OnClick()
     {
         GD.Print("Scene Switcher Clicked...");
+        GetTree().Paused = false;
         GetTree().ChangeSceneToFile(scenePath);
     }
 }

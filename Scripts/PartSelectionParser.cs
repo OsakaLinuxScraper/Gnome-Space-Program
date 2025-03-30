@@ -79,7 +79,8 @@ public partial class PartSelectionParser : Panel
 
         GridContainer newContainer = new()
         {
-            Visible = false
+            Visible = false,
+			Columns = 3
         };
 		
 		catButton.category = newContainer;

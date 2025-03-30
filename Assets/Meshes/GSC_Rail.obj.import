@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cokocbd0j4nlj"
+path="res://.godot/imported/GSC_Rail.obj-8badcf39d2c1b42b2adb0fa8840a1660.mesh"
+
+[deps]
+
+files=["res://.godot/imported/GSC_Rail.obj-8badcf39d2c1b42b2adb0fa8840a1660.mesh"]
+
+source_file="res://Assets/Meshes/GSC_Rail.obj"
+dest_files=["res://.godot/imported/GSC_Rail.obj-8badcf39d2c1b42b2adb0fa8840a1660.mesh", "res://.godot/imported/GSC_Rail.obj-8badcf39d2c1b42b2adb0fa8840a1660.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

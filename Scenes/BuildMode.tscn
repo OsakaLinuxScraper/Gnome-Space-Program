@@ -126,7 +126,7 @@ anchors_preset = -1
 anchor_bottom = 1.0
 offset_left = 30.0
 offset_top = 32.0
-offset_right = 239.0
+offset_right = 319.0
 offset_bottom = -135.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -143,9 +143,9 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.966
 anchor_bottom = 1.0
-offset_left = 57.0
+offset_left = 71.0
 offset_top = 7.0
-offset_right = 0.106003
+offset_right = 1.82599
 offset_bottom = -7.0
 mouse_filter = 2
 
@@ -154,9 +154,9 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 5.0
+offset_left = 7.0
 offset_top = 6.0
-offset_right = -5.0
+offset_right = -7.0
 offset_bottom = -6.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -169,9 +169,9 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.966
 anchor_bottom = 1.0
-offset_left = 6.0
+offset_left = 8.0
 offset_top = 7.0
-offset_right = -148.894
+offset_right = -213.174
 offset_bottom = -7.0
 mouse_filter = 2
 
@@ -181,7 +181,7 @@ anchors_preset = 9
 anchor_bottom = 1.0
 offset_left = 5.0
 offset_top = 6.0
-offset_right = 42.0
+offset_right = 53.0
 offset_bottom = -5.0
 grow_vertical = 2
 
@@ -197,7 +197,7 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 30.0
 offset_top = -119.0
-offset_right = 239.0
+offset_right = 319.0
 offset_bottom = -29.0
 grow_vertical = 0
 
@@ -215,7 +215,7 @@ grow_vertical = 2
 
 [node name="LaunchButton" type="Button" parent="UI/MiscButtons/VBoxContainer" node_paths=PackedStringArray("craftAssembler")]
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 24
 text = "Launch"
 script = ExtResource("13_vhgu6")
 craftAssembler = NodePath("../../../../CurrentCraft")
@@ -223,7 +223,7 @@ scenePath = "res://Scenes/Universe.tscn"
 
 [node name="ExitButton" type="Button" parent="UI/MiscButtons/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 24
 text = "Exit"
 script = ExtResource("13_7yytv")
 scenePath = "res://Scenes/SpaceCenter.tscn"

@@ -1,0 +1,19 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://d1oqsahgrjcuk"]
+
+[ext_resource type="Texture2D" uid="uid://duc1fqfb5hmwe" path="res://Assets/Textures/SpaceCenter/Rail_CLR.png" id="1_jvjl4"]
+[ext_resource type="Texture2D" uid="uid://cpyiwx743varh" path="res://Assets/Textures/SpaceCenter/Rail_NRM.png" id="2_3xqqb"]
+
+[resource]
+albedo_texture = ExtResource("1_jvjl4")
+metallic = 0.65
+metallic_specular = 1.0
+roughness = 0.57
+normal_enabled = true
+normal_texture = ExtResource("2_3xqqb")
+rim = 0.0
+rim_tint = 0.6
+uv1_world_triplanar = true
+texture_filter = 5
+billboard_keep_scale = true
+grow_amount = 0.674
+proximity_fade_distance = 4083.3
